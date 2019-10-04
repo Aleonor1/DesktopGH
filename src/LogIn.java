@@ -21,10 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import org.kohsuke.github.GHCreateRepositoryBuilder;
-import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
-import org.kohsuke.github.GitHubBuilder;
 
 public class LogIn {
 
@@ -52,6 +49,27 @@ public class LogIn {
 		initialize();
 	}
 
+	private void openMain() {
+		frame.dispose();
+		for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+			if ("Windows".equals(info.getName())) {
+				try {
+					javax.swing.UIManager.setLookAndFeel(info.getClassName());
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e1) {
+					e1.printStackTrace();
+				}
+				break;
+			}
+		}
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				new Home().setVisible(true);
+			}
+		});
+
+	}
+
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(SystemColor.textHighlight);
@@ -66,7 +84,7 @@ public class LogIn {
 		passwordField = new JTextField();
 		passwordField.setColumns(10);
 
-		JButton btnNewButton = new JButton("New button");
+		JButton btnNewButton = new JButton("Log IN!");
 
 		btnNewButton.addActionListener(new ActionListener() {
 
@@ -74,27 +92,11 @@ public class LogIn {
 				try {
 					String user = usernameField.getText();
 					String pass = passwordField.getText();
-					GitHub gh = GitHub.connectUsingPassword("adrian.nyikita98@e-uvt.ro", "Informatica1@");
+					GitHub gh = GitHub.connectUsingPassword(user, pass);
 					if (!gh.isCredentialValid()) {
 						JOptionPane.showMessageDialog(null, "Credentials are wrong! please try again");
 					} else if (!gh.isAnonymous()) {
-						for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
-								.getInstalledLookAndFeels()) {
-							if ("Windows".equals(info.getName())) {
-								try {
-									javax.swing.UIManager.setLookAndFeel(info.getClassName());
-								} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-										| UnsupportedLookAndFeelException e1) {
-									e1.printStackTrace();
-								}
-								break;
-							}
-						}
-						java.awt.EventQueue.invokeLater(new Runnable() {
-							public void run() {
-								new Home().setVisible(true);
-							}
-						});
+						openMain();
 					} else {
 						JOptionPane.showMessageDialog(null, "Login Failed! Please try again!");
 					}
@@ -114,30 +116,62 @@ public class LogIn {
 		Image dimg = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 		ImageIcon icon = new ImageIcon(dimg);
 		lblNewLabel.setIcon(icon);
+
+		JButton btnAnonymous = new JButton("Anonymous");
+		btnAnonymous.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openMain();
+			}
+		});
+
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
-				.createSequentialGroup()
-				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup().addGap(217).addComponent(lblNewLabel))
-						.addGroup(groupLayout.createSequentialGroup().addGap(174).addComponent(usernameField,
-								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup().addGap(174).addComponent(passwordField,
-								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup().addGap(194).addComponent(lblPassword))
-						.addGroup(groupLayout.createSequentialGroup().addGap(193).addComponent(lblUsername))
-						.addGroup(groupLayout.createSequentialGroup().addGap(173).addComponent(btnNewButton)))
-				.addContainerGap(172, Short.MAX_VALUE)));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup().addGap(29).addComponent(lblNewLabel).addGap(41)
-						.addComponent(lblUsername).addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(usernameField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-						.addGap(11).addComponent(lblPassword).addGap(11)
-						.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-						.addGap(11)
-						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(61, Short.MAX_VALUE)));
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(217)
+							.addComponent(lblNewLabel))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(174)
+							.addComponent(usernameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(194)
+							.addComponent(lblPassword))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(193)
+							.addComponent(lblUsername))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(174)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(10)
+									.addComponent(btnNewButton))
+								.addComponent(btnAnonymous))))
+					.addContainerGap(173, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(29)
+					.addComponent(lblNewLabel)
+					.addGap(41)
+					.addComponent(lblUsername)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(usernameField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+					.addGap(11)
+					.addComponent(lblPassword)
+					.addGap(11)
+					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnAnonymous)
+					.addContainerGap(151, Short.MAX_VALUE))
+		);
 		frame.getContentPane().setLayout(groupLayout);
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 452, 419);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
