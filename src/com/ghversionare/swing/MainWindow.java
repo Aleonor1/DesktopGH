@@ -1,14 +1,9 @@
+package com.ghversionare.swing;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
 import java.awt.Color;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextField;
 import javax.swing.JLabel;
 
 public class MainWindow {

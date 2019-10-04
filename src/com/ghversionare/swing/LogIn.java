@@ -1,3 +1,4 @@
+package com.ghversionare.swing;
 
 import java.awt.EventQueue;
 import java.awt.Image;
