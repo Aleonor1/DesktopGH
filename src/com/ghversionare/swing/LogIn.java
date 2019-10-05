@@ -23,12 +23,13 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import org.kohsuke.github.GitHub;
+import javax.swing.JPasswordField;
 
 public class LogIn {
 
 	private JFrame frame;
 	private JTextField usernameField;
-	private JTextField passwordField;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -82,9 +83,6 @@ public class LogIn {
 
 		JLabel lblPassword = new JLabel("Password");
 
-		passwordField = new JTextField();
-		passwordField.setColumns(10);
-
 		JButton btnNewButton = new JButton("Log IN!");
 
 		btnNewButton.addActionListener(new ActionListener() {
@@ -124,6 +122,8 @@ public class LogIn {
 				openMain();
 			}
 		});
+		
+		passwordField = new JPasswordField();
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -134,9 +134,6 @@ public class LogIn {
 							.addGap(217)
 							.addComponent(lblNewLabel))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(174)
-							.addComponent(usernameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(194)
 							.addComponent(lblPassword))
 						.addGroup(groupLayout.createSequentialGroup()
@@ -145,12 +142,16 @@ public class LogIn {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(174)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(10)
 									.addComponent(btnNewButton))
-								.addComponent(btnAnonymous))))
-					.addContainerGap(173, Short.MAX_VALUE))
+								.addComponent(btnAnonymous)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(174)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(passwordField)
+								.addComponent(usernameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addContainerGap(148, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -163,13 +164,13 @@ public class LogIn {
 					.addComponent(usernameField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 					.addGap(11)
 					.addComponent(lblPassword)
-					.addGap(11)
-					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+					.addGap(5)
+					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnAnonymous)
-					.addContainerGap(151, Short.MAX_VALUE))
+					.addContainerGap(157, Short.MAX_VALUE))
 		);
 		frame.getContentPane().setLayout(groupLayout);
 		frame.setBounds(100, 100, 452, 419);
