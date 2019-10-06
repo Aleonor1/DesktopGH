@@ -39,7 +39,7 @@ public class LogIn {
 			public void run() {
 				try {
 					LogIn window = new LogIn();
-					window.frame.setVisible(true);
+					window.getFrame().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -51,8 +51,8 @@ public class LogIn {
 		initialize();
 	}
 
-	private void openMain() {
-		frame.dispose();
+	private void openMain(GitHub gh) {
+		getFrame().dispose();
 		for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
 			if ("Windows".equals(info.getName())) {
 				try {
@@ -66,15 +66,14 @@ public class LogIn {
 		}
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new Home().setVisible(true);
+				new Home(gh).setVisible(true);
 			}
 		});
-
 	}
 
 	private void initialize() {
-		frame = new JFrame();
-		frame.getContentPane().setBackground(SystemColor.textHighlight);
+		setFrame(new JFrame());
+		getFrame().getContentPane().setBackground(SystemColor.textHighlight);
 
 		JLabel lblUsername = new JLabel("Username");
 
@@ -95,7 +94,7 @@ public class LogIn {
 					if (!gh.isCredentialValid()) {
 						JOptionPane.showMessageDialog(null, "Credentials are wrong! please try again");
 					} else if (!gh.isAnonymous()) {
-						openMain();
+						openMain(gh);
 					} else {
 						JOptionPane.showMessageDialog(null, "Login Failed! Please try again!");
 					}
@@ -119,38 +118,44 @@ public class LogIn {
 		JButton btnAnonymous = new JButton("Anonymous");
 		btnAnonymous.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				openMain();
+				GitHub gh = null;
+				try {
+					gh = GitHub.connectAnonymously();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				openMain(gh);
 			}
 		});
 		
 		passwordField = new JPasswordField();
 
-		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		GroupLayout groupLayout = new GroupLayout(getFrame().getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+							.addGroup(groupLayout.createSequentialGroup()
+								.addGap(217)
+								.addComponent(lblNewLabel))
+							.addGroup(groupLayout.createSequentialGroup()
+								.addGap(194)
+								.addComponent(lblPassword))
+							.addGroup(groupLayout.createSequentialGroup()
+								.addGap(174)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+									.addComponent(passwordField, 130, 130, Short.MAX_VALUE)
+									.addComponent(usernameField)))
+							.addGroup(groupLayout.createSequentialGroup()
+								.addGap(174)
+								.addComponent(btnAnonymous, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(217)
-							.addComponent(lblNewLabel))
+							.addGap(182)
+							.addComponent(btnNewButton))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(194)
-							.addComponent(lblPassword))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(193)
-							.addComponent(lblUsername))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(174)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(10)
-									.addComponent(btnNewButton))
-								.addComponent(btnAnonymous)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(174)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(passwordField)
-								.addComponent(usernameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+							.addGap(195)
+							.addComponent(lblUsername)))
 					.addContainerGap(148, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
@@ -166,14 +171,22 @@ public class LogIn {
 					.addComponent(lblPassword)
 					.addGap(5)
 					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(12)
 					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnAnonymous)
 					.addContainerGap(157, Short.MAX_VALUE))
 		);
-		frame.getContentPane().setLayout(groupLayout);
-		frame.setBounds(100, 100, 452, 419);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getFrame().getContentPane().setLayout(groupLayout);
+		getFrame().setBounds(100, 100, 452, 419);
+		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
 	}
 }
