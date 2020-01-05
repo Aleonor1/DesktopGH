@@ -8,13 +8,14 @@ package swing;
 import java.awt.Color;
 import java.awt.Container;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
  *
- * @author Admin
+ * @author anyikit
  */
 public class MainApplication extends javax.swing.JFrame {
 
@@ -26,7 +27,7 @@ public class MainApplication extends javax.swing.JFrame {
 		ind_1.setOpaque(true);
 		resetColor(new JPanel[] { btn_2, btn_3, btn_4 }, new JPanel[] { ind_2, ind_3, ind_4 });
 		HomeView h = new HomeView(jPanel6);
-		h.start(getContentPane());
+		this.jPanel6 = h.getjPanel();
 	}
 
 	public Container getPanel() {
@@ -383,8 +384,8 @@ public class MainApplication extends javax.swing.JFrame {
 		ind_1.setOpaque(true);
 		resetColor(new JPanel[] { btn_2, btn_3, btn_4 }, new JPanel[] { ind_2, ind_3, ind_4 });
 		HomeView repo = new HomeView(jPanel6);
-		repo.start(getContentPane());
-	}// GEN-LAST:event_btn_1MousePressed
+		this.jPanel6 = repo.getjPanel();
+	}
 
 	private void btn_4MousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_4MousePressed
 		try {
@@ -393,13 +394,10 @@ public class MainApplication extends javax.swing.JFrame {
 			resetColor(new JPanel[] { btn_2, btn_3, btn_1 }, new JPanel[] { ind_2, ind_3, ind_1 });
 			RepositoryDetailed repos = new RepositoryDetailed(jPanel6);
 			this.jPanel6 = repos.getJPanel();
-//			getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 50, 650, 540));
-
-//			pack();
 		} catch (IOException ex) {
 			Logger.getLogger(MainApplication.class.getName()).log(Level.SEVERE, null, ex);
 		}
-	}// GEN-LAST:event_btn_4MousePressed
+	}
 
 	private void btn_2MouseReleased(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_2MouseReleased
 		// TODO add your handling code here:
@@ -408,14 +406,12 @@ public class MainApplication extends javax.swing.JFrame {
 		resetColor(new JPanel[] { btn_1, btn_3, btn_4 }, new JPanel[] { ind_1, ind_3, ind_4 });
 	}// GEN-LAST:event_btn_2MouseReleased
 
-	int xx, xy;
+	private int xx, xy;
 
 	private void jPanel2MousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jPanel2MousePressed
-		// TODO add your handling code here:
-		// drag this pane
 		xx = evt.getX();
 		xy = evt.getY();
-	}// GEN-LAST:event_jPanel2MousePressed
+	}
 
 	private void jPanel2MouseDragged(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jPanel2MouseDragged
 		// TODO add your handling code here:
@@ -432,18 +428,7 @@ public class MainApplication extends javax.swing.JFrame {
 		System.exit(0);
 	}// GEN-LAST:event_btn_exitMousePressed
 
-	/**
-	 * @param args the command line arguments
-	 */
 	public static void main(String args[]) {
-		/* Set the Nimbus look and feel */
-		// <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
-		// (optional) ">
-		/*
-		 * If Nimbus (introduced in Java SE 6) is not available, stay with the default
-		 * look and feel. For details see
-		 * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-		 */
 		try {
 			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
 				if ("Windows".equals(info.getName())) {
@@ -463,38 +448,51 @@ public class MainApplication extends javax.swing.JFrame {
 
 	}
 
-	private void setColor(JPanel pane) {
+	private static void setColor(JPanel pane) {
 		pane.setBackground(new Color(41, 57, 80));
 	}
 
-	private void resetColor(JPanel[] pane, JPanel[] indicators) {
+	private static void resetColor(JPanel[] pane, JPanel[] indicators) {
 		for (JPanel pane1 : pane) {
 			pane1.setBackground(new Color(23, 35, 51));
 		}
 		for (JPanel indicator : indicators) {
 			indicator.setOpaque(false);
 		}
-
 	}
 
-	public void btn_3MousePressed() {
+	public static void repositoryButtonPressed() {
 		setColor(btn_3);
 		ind_3.setOpaque(true);
 		resetColor(new JPanel[] { btn_2, btn_1, btn_4 }, new JPanel[] { ind_2, ind_1, ind_4 });
-		RepositoriesView repo = new RepositoriesView(jPanel6);
+	}
+
+	private void btn_3MousePressed() {
+		setColor(btn_3);
+		ind_3.setOpaque(true);
+		resetColor(new JPanel[] { btn_2, btn_1, btn_4 }, new JPanel[] { ind_2, ind_1, ind_4 });
+		ArrayList<ArrayList<String>> a = new ArrayList<>();
+		ArrayList<String> b = new ArrayList<String>();
+		b.add("Sarmale");
+		b.add("Carnati");
+		b.add("portocale");
+		for (int i = 0; i < 1000; i++) {
+			a.add(b);
+		}
+		RepositoriesView repo = new RepositoriesView(jPanel6, a);
 		this.jPanel6 = repo.getJPanel6();
 	}
 
-	private javax.swing.JPanel btn_1;
-	private javax.swing.JPanel btn_2;
-	private javax.swing.JPanel btn_3;
-	private javax.swing.JPanel btn_4;
+	private static javax.swing.JPanel btn_1;
+	private static javax.swing.JPanel btn_2;
+	private static javax.swing.JPanel btn_3;
+	private static javax.swing.JPanel btn_4;
 	private javax.swing.JLabel btn_exit;
 	private java.awt.Button button1;
-	private javax.swing.JPanel ind_1;
-	private javax.swing.JPanel ind_2;
-	private javax.swing.JPanel ind_3;
-	private javax.swing.JPanel ind_4;
+	private static javax.swing.JPanel ind_1;
+	private static javax.swing.JPanel ind_2;
+	private static javax.swing.JPanel ind_3;
+	private static javax.swing.JPanel ind_4;
 	private javax.swing.JLabel jLabel10;
 	private javax.swing.JLabel jLabel11;
 	private javax.swing.JLabel jLabel12;

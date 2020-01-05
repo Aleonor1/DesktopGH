@@ -6,19 +6,17 @@
 package swing;
 
 import java.awt.Button;
-import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 
 /**
  *
  * @author anyikit
  */
-public class HomeView extends javax.swing.JFrame {
+public class HomeView extends javax.swing.JFrame { // NO_UCD (use default)
 
+	private static final long serialVersionUID = 2230288104893640642L;
 	private java.awt.Button button10;
 	private Button button3;
 	private java.awt.Button button11;
@@ -47,13 +45,9 @@ public class HomeView extends javax.swing.JFrame {
 	private java.awt.Button button7;
 	private java.awt.Button button8;
 	private java.awt.Button button9;
-	private javax.swing.JTable jTable1;
-	private javax.swing.JScrollPane jScrollPane1;
 	private javax.swing.JPanel jPanel6;
-	private javax.swing.JTextField jTextField1;
-	private javax.swing.JPanel side_pane;
 
-	public HomeView(JPanel jPanel6) {
+	public HomeView(JPanel jPanel6) { // NO_UCD (use default)
 		this.jPanel6 = jPanel6;
 		jPanel6.removeAll();
 		button3 = new java.awt.Button();
@@ -407,15 +401,7 @@ public class HomeView extends javax.swing.JFrame {
 
 	}
 
-	private void openConnection(String topic) {
-		RepositoriesView repo = new RepositoriesView(jPanel6);
-
-	}
-
-	public void start(Container contentPane) {
-
-		contentPane.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 50, 650, 540));
-
-		pack();
+	public JPanel getjPanel() {
+		return this.jPanel6;
 	}
 }

@@ -2,7 +2,6 @@ package swing;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
@@ -13,15 +12,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
-import jdk.nashorn.internal.parser.JSONParser;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -34,12 +28,11 @@ import jdk.nashorn.internal.parser.JSONParser;
  */
 public class RepositoryDetailed extends JPanel {
 
-	private int total_downloads;
-	private String author;
+	private static final long serialVersionUID = 1120803797549237556L;
 	private JPanel jPanel6;
 	private javax.swing.JTable jTable1;
 	private javax.swing.JScrollPane jScrollPane1;
-	
+
 	public JPanel getJPanel() {
 		return this.jPanel6;
 	}
@@ -55,14 +48,12 @@ public class RepositoryDetailed extends JPanel {
 		httpcon.addRequestProperty("User-Agent", "Mozilla/5.0");
 		StringBuilder responseSB;
 		try (BufferedReader in = new BufferedReader(new InputStreamReader(httpcon.getInputStream()))) {
-			// Read line by line
 			responseSB = new StringBuilder();
 			String line;
 			while ((line = in.readLine()) != null) {
 				responseSB.append("\n").append(line);
 			}
 		}
-		// Get Git Hub Downloads of XR3Player
 		ArrayList<Integer> downloads = new ArrayList<>();
 		Arrays.stream(responseSB.toString().split("\"download_count\":")).skip(1).map(l -> l.split(",")[0])
 				.forEach(l -> downloads.add(Integer.parseInt(l)));
@@ -72,6 +63,8 @@ public class RepositoryDetailed extends JPanel {
 		DefaultTableModel model;
 		model = new javax.swing.table.DefaultTableModel(new Object[][] {},
 				new String[] { "Release number", "Downloads Count" }) {
+			private static final long serialVersionUID = -583667639884598068L;
+
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return false;
@@ -120,36 +113,10 @@ public class RepositoryDetailed extends JPanel {
 			@Override
 			public void mousePressed(MouseEvent mouseEvent) {
 				JTable table = (JTable) mouseEvent.getSource();
-				Point point = mouseEvent.getPoint();
-				int row = table.rowAtPoint(point);
 				if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
 					System.out.println("Sarmale");
 				}
 			}
 		});
 	}
-
-//    public Repository() {
-//        HttpURLConnection httpcon = null;
-//        try {
-//            httpcon = (HttpURLConnection) new URL("https://api.github.com/repos/goxr3plus/XR3Player/releases").openConnection();
-//        } catch (MalformedURLException ex) {
-//            Logger.getLogger(Repository.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IOException ex) {
-//            Logger.getLogger(Repository.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        httpcon.addRequestProperty("User-Agent", "Mozilla/5.0");
-//        StringBuilder responseSB = null;
-//        try (BufferedReader in = new BufferedReader(new InputStreamReader(httpcon.getInputStream()))) {
-//            responseSB = new StringBuilder();
-//            String line;
-//            while ((line = in.readLine()) != null) {
-//                responseSB.append("\n").append(line);
-//            }
-//        } catch (IOException ex) {
-//            Logger.getLogger(Repository.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        String data = responseSB.toString();
-//        System.out.println(data.substring(data.indexOf("login"), data.indexOf(",", data.indexOf("login"))));
-//    }
 }
