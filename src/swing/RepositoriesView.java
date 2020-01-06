@@ -32,13 +32,13 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 		return this.jPanel6;
 	}
 
-	public RepositoriesView(JPanel jPanel6, ArrayList<ArrayList<String>> elements) {
+	public RepositoriesView(JPanel jPanel6, ArrayList<Repository> results) {
 		this.jPanel6 = jPanel6;
 		this.jPanel6.removeAll();
 		jTable1 = new JTable();
 		jScrollPane1 = new JScrollPane();
 		jTable1.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {},
-				new String[] { "Repository Name", "Owner", "Topic", "Total Downloads" }) {
+				new String[] { "Repository Name", "Owner", "No. of Watchers", "Total Downloads" }) {
 			private static final long serialVersionUID = -1094020803823916174L;
 
 			@Override
@@ -47,11 +47,12 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 			}
 
 		});
-		Object[][] a = new Object[elements.size()][elements.get(0).size()];
-		for (int i = 0; i < elements.size(); i++) {
-			for (int j = 0; j < elements.get(i).size(); j++) {
-				a[i][j] = elements.get(i).get(j);
-			}
+		Object[][] a = new Object[results.size()][4];
+		for (int i = 0; i < results.size(); i++) {
+			a[i][0] = results.get(i).getName();
+			a[i][1] = results.get(i).getLogin();
+			a[i][2] = results.get(i).getWatchers();
+			a[i][3] = " ";
 		}
 		DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 		for (int i = 0; i < a.length; i++) {

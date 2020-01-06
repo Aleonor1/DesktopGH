@@ -8,6 +8,8 @@ package swing;
 import java.awt.Button;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 
 /**
@@ -92,7 +94,8 @@ public class HomeView extends javax.swing.JFrame { // NO_UCD (use default)
 			}
 
 			private void RepoView(JPanel jPanel6) {
-				RepositoriesView r = new RepositoriesView(jPanel6);
+				ArrayList<Repository> results = ApiConnector.searchRepos();
+				RepositoriesView r = new RepositoriesView(jPanel6, results);
 				jPanel6 = r.getJPanel6();
 			}
 		});

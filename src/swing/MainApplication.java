@@ -479,8 +479,8 @@ public class MainApplication extends javax.swing.JFrame {
 		for (int i = 0; i < 1000; i++) {
 			a.add(b);
 		}
-		RepositoriesView repo = new RepositoriesView(jPanel6, a);
-		this.jPanel6 = repo.getJPanel6();
+//		RepositoriesView repo = new RepositoriesView(jPanel6, a);
+//		this.jPanel6 = repo.getJPanel6();
 	}
 
 	private static javax.swing.JPanel btn_1;
