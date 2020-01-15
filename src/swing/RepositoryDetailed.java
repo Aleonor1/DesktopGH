@@ -12,6 +12,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -62,7 +65,7 @@ public class RepositoryDetailed extends JPanel {
 				.mapToInt(l -> Integer.parseInt(l.split(",")[0])).sum();
 		DefaultTableModel model;
 		model = new javax.swing.table.DefaultTableModel(new Object[][] {},
-				new String[] { "Release number", "Downloads Count" }) {
+				new String[] { "Name of information", "Information" }) {
 			private static final long serialVersionUID = -583667639884598068L;
 
 			@Override
@@ -72,6 +75,7 @@ public class RepositoryDetailed extends JPanel {
 
 		};
 		jTable1.setModel(model);
+		
 		int count = 0;
 		for (int i = 0; i < downloads.size(); i++) {
 			Object[] row = new Object[2];

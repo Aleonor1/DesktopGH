@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -38,7 +39,7 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 		jTable1 = new JTable();
 		jScrollPane1 = new JScrollPane();
 		jTable1.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {},
-				new String[] { "Repository Name", "Owner", "No. of Watchers", "Total Downloads" }) {
+				new String[] { "Repository Name", "Owner"}) {
 			private static final long serialVersionUID = -1094020803823916174L;
 
 			@Override
@@ -47,18 +48,16 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 			}
 
 		});
-		Object[][] a = new Object[results.size()][4];
+		Object[][] a = new Object[results.size()][2];
 		for (int i = 0; i < results.size(); i++) {
 			a[i][0] = results.get(i).getName();
 			a[i][1] = results.get(i).getLogin();
-			a[i][2] = results.get(i).getWatchers();
-			a[i][3] = " ";
 		}
 		DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 		for (int i = 0; i < a.length; i++) {
 			model.addRow(a[i]);
 		}
-
+		jTable1.setAutoCreateRowSorter(true);
 		jTable1.setFocusable(false);
 		jTable1.setRowSelectionAllowed(true);
 
@@ -83,13 +82,20 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 				.addGroup(jPanel6Layout.createSequentialGroup().addContainerGap()
 						.addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
 						.addContainerGap()));
-
 		jTable1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent mouseEvent) {
 				JTable table = (JTable) mouseEvent.getSource();
 				if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
-					System.out.println("Sarmale");
+					try {
+						System.out.println(table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+						String data = table.getValueAt(table.getSelectedRow(),0).toString();
+						data += table.getValueAt(table.getSelectedRow(),1).toString();
+						System.out.println(data);
+						RepositoryDetailed detailedRepo = new RepositoryDetailed(jPanel6);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		});
@@ -141,14 +147,5 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 						.addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
 						.addContainerGap()));
 
-		jTable1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent mouseEvent) {
-				JTable table = (JTable) mouseEvent.getSource();
-				if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
-					System.out.println("Sarmale");
-				}
-			}
-		});
 	}
 }
