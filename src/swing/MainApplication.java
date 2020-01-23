@@ -22,6 +22,7 @@ public class MainApplication extends javax.swing.JFrame {
 	private static final long serialVersionUID = -5233284588613718266L;
 
 	public MainApplication() {
+		ApiConnector.getTopics("awesome-python", "vinta");
 		initComponents();
 		setColor(btn_1);
 		ind_1.setOpaque(true);

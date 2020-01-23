@@ -39,7 +39,7 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 		jTable1 = new JTable();
 		jScrollPane1 = new JScrollPane();
 		jTable1.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {},
-				new String[] { "Repository Name", "Owner"}) {
+				new String[] { "Repository Name", "Owner", "Topics"}) {
 			private static final long serialVersionUID = -1094020803823916174L;
 
 			@Override
@@ -48,10 +48,11 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 			}
 
 		});
-		Object[][] a = new Object[results.size()][2];
+		Object[][] a = new Object[results.size()][3];
 		for (int i = 0; i < results.size(); i++) {
 			a[i][0] = results.get(i).getName();
 			a[i][1] = results.get(i).getLogin();
+			a[i][2] = ApiConnector.getTopics(results.get(i).getName(), results.get(i).getLogin());
 		}
 		DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 		for (int i = 0; i < a.length; i++) {

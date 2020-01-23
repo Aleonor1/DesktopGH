@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
+import swing.RuntimeExec.StreamWrapper;
+
 public class ApiConnector {
 	public static ArrayList<Repository> searchRepos() {
 		HttpURLConnection httpcon = null;
@@ -70,6 +74,7 @@ public class ApiConnector {
 			while ((line = in.readLine()) != null) {
 				responseSB.append("\n").append(line);
 			}
+			httpcon.disconnect();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -82,5 +87,34 @@ public class ApiConnector {
 		listOfInformations.put("Watchers Count", Integer.toString(watchersCount));
 
 		return listOfInformations;
+	}
+
+	public static String getTopics(String repositoryName, String a) {
+
+		Runtime rt = Runtime.getRuntime();
+		RuntimeExec rte = new RuntimeExec();
+		StreamWrapper error, output = null;
+		String[] topics = null;
+		try {
+			String st = "curl -X GET https://api.github.com/repos/" + a + "/" + repositoryName
+					+ "/topics -H \"Accept: application/vnd.github.mercy-preview+json\" -H \"Content-Type: application/vnd.github.v3.full+json/?client_id=87bd7263c9178e153521&client_secret=dc1c9bbbf467bf8768687818c1dabbffc684f45c\"";
+			Process proc = rt.exec(st);
+			error = rte.getStreamWrapper(proc.getErrorStream(), "ERROR");
+			output = rte.getStreamWrapper(proc.getInputStream(), "OUTPUT");
+			int exitVal = 0;
+			error.start();
+			output.start();
+			error.join(3000);
+			output.join(3000);
+			exitVal = proc.waitFor();
+			output.message = output.message.trim().replaceAll("[^a-zA-Z0-9\\s]", "");
+			output.message = StringUtils.normalizeSpace(output.message);
+			output.message.replace(" ", ",");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return output.message;
 	}
 }
