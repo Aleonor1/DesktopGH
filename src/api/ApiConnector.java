@@ -1,4 +1,4 @@
-package swing;
+package api;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import swing.RuntimeExec.StreamWrapper;
+import api.RuntimeExec.StreamWrapper;
 
 public class ApiConnector {
 

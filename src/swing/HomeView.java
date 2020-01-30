@@ -10,9 +10,10 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
-import swing.ApiConnector;
 
 import javax.swing.JPanel;
+
+import api.ApiConnector;
 
 /**
  *
