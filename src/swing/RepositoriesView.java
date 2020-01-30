@@ -6,16 +6,19 @@
 package swing;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.Map;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -33,13 +36,13 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 		return this.jPanel6;
 	}
 
-	public RepositoriesView(JPanel jPanel6, ArrayList<Repository> results) {
+	public RepositoriesView(JPanel jPanel6, Map<String, String> results) {
 		this.jPanel6 = jPanel6;
 		this.jPanel6.removeAll();
 		jTable1 = new JTable();
 		jScrollPane1 = new JScrollPane();
 		jTable1.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {},
-				new String[] { "Repository Name", "Owner", "Topics"}) {
+				new String[] { "Number", "Repository Name", "Owner", "Topics" }) {
 			private static final long serialVersionUID = -1094020803823916174L;
 
 			@Override
@@ -48,11 +51,14 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 			}
 
 		});
-		Object[][] a = new Object[results.size()][3];
-		for (int i = 0; i < results.size(); i++) {
-			a[i][0] = results.get(i).getName();
-			a[i][1] = results.get(i).getLogin();
-			a[i][2] = ApiConnector.getTopics(results.get(i).getName(), results.get(i).getLogin());
+		Object[][] a = new Object[results.size()][4];
+		ArrayList<String> keys = new ArrayList<String>(results.keySet());
+		for (int i = 0; i < keys.size(); i++) {
+			String st = keys.get(i);
+			a[i][0] = (i + 1) + ".";
+			a[i][1] = st;
+			a[i][2] = results.get(st);
+			a[i][3] = ApiConnector.getTopics(st, results.get(st));
 		}
 		DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 		for (int i = 0; i < a.length; i++) {
@@ -84,14 +90,15 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 						.addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
 						.addContainerGap()));
 		jTable1.addMouseListener(new MouseAdapter() {
+
 			@Override
 			public void mousePressed(MouseEvent mouseEvent) {
 				JTable table = (JTable) mouseEvent.getSource();
 				if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
 					try {
 						System.out.println(table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
-						String data = table.getValueAt(table.getSelectedRow(),0).toString();
-						data += table.getValueAt(table.getSelectedRow(),1).toString();
+						String data = table.getValueAt(table.getSelectedRow(), 0).toString();
+						data += table.getValueAt(table.getSelectedRow(), 1).toString();
 						System.out.println(data);
 						RepositoryDetailed detailedRepo = new RepositoryDetailed(jPanel6);
 					} catch (IOException e) {
@@ -99,7 +106,9 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 					}
 				}
 			}
+
 		});
+		resizeColumnWidth(jTable1);
 	}
 
 	public RepositoriesView(JPanel jPanel6) {
@@ -111,10 +120,7 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 		jTable1.setModel(new javax.swing.table.DefaultTableModel(
 				new Object[][] { { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
 						{ null, null, null, null } },
-				new String[] { "Repository Name", "Owner", "Topic", "Total Downloads" }) {
-			/**
-			 * 
-			 */
+				new String[] { "Number", "Repository Name", "Owner", "Topic", "Total Downloads" }) {
 			private static final long serialVersionUID = -1094020803823916174L;
 
 			@Override
@@ -148,5 +154,20 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 						.addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
 						.addContainerGap()));
 
+	}
+
+	public void resizeColumnWidth(JTable table) {
+		final TableColumnModel columnModel = table.getColumnModel();
+		for (int column = 0; column < table.getColumnCount(); column++) {
+			int width = 15; // Min width
+			for (int row = 0; row < table.getRowCount(); row++) {
+				TableCellRenderer renderer = table.getCellRenderer(row, column);
+				Component comp = table.prepareRenderer(renderer, row, column);
+				width = Math.max(comp.getPreferredSize().width + 1, width);
+			}
+			if (width > 300)
+				width = 300;
+			columnModel.getColumn(column).setPreferredWidth(width);
+		}
 	}
 }

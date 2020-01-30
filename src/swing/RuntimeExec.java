@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class RuntimeExec {
@@ -37,20 +36,6 @@ public class RuntimeExec {
 					buffer.append(line);// .append("\n");
 				}
 				message = buffer.toString();
-				boolean bool = false;
-				String st = "";
-				for (int i = 0; i < message.length(); i++) {
-					char c = message.charAt(i);
-					if (c == '"') {
-						if (bool == true) {
-							bool = false;
-							topics.add(st);
-							st = "";
-						}
-					} else {
-						st += c;
-					}
-				}
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
 			}

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.GroupLayout.Alignment;
 
 /**
  *
@@ -21,8 +23,27 @@ public class MainApplication extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = -5233284588613718266L;
 
+	public static void main(String args[]) {
+		try {
+			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+				if ("Windows".equals(info.getName())) {
+					javax.swing.UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| javax.swing.UnsupportedLookAndFeelException ex) {
+			java.util.logging.Logger.getLogger(MainApplication.class.getName()).log(java.util.logging.Level.SEVERE,
+					null, ex);
+		}
+
+		java.awt.EventQueue.invokeLater(() -> {
+			new MainApplication().setVisible(true);
+		});
+
+	}
+
 	public MainApplication() {
-		ApiConnector.getTopics("awesome-python", "vinta");
 		initComponents();
 		setColor(btn_1);
 		ind_1.setOpaque(true);
@@ -132,7 +153,7 @@ public class MainApplication extends javax.swing.JFrame {
 
 		jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 		jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-		jLabel9.setText("Settings");
+		jLabel9.setText("Detailed Search");
 
 		javax.swing.GroupLayout btn_2Layout = new javax.swing.GroupLayout(btn_2);
 		btn_2.setLayout(btn_2Layout);
@@ -367,13 +388,25 @@ public class MainApplication extends javax.swing.JFrame {
 		getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 300, 540));
 
 		jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+		
+		lblSarmale = new JLabel("sarmale");
 
 		javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+		jPanel6Layout.setHorizontalGroup(
+			jPanel6Layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(jPanel6Layout.createSequentialGroup()
+					.addGap(119)
+					.addComponent(lblSarmale)
+					.addContainerGap(485, Short.MAX_VALUE))
+		);
+		jPanel6Layout.setVerticalGroup(
+			jPanel6Layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(jPanel6Layout.createSequentialGroup()
+					.addGap(173)
+					.addComponent(lblSarmale)
+					.addContainerGap(353, Short.MAX_VALUE))
+		);
 		jPanel6.setLayout(jPanel6Layout);
-		jPanel6Layout.setHorizontalGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGap(0, 650, Short.MAX_VALUE));
-		jPanel6Layout.setVerticalGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGap(0, 540, Short.MAX_VALUE));
 
 		getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 50, 650, 540));
 
@@ -405,6 +438,9 @@ public class MainApplication extends javax.swing.JFrame {
 		setColor(btn_2);
 		ind_2.setOpaque(true);
 		resetColor(new JPanel[] { btn_1, btn_3, btn_4 }, new JPanel[] { ind_1, ind_3, ind_4 });
+		SearchView search = new SearchView(this.jPanel6);
+		this.jPanel6 = search.getjPanel();
+		
 	}// GEN-LAST:event_btn_2MouseReleased
 
 	private int xx, xy;
@@ -428,26 +464,6 @@ public class MainApplication extends javax.swing.JFrame {
 
 		System.exit(0);
 	}// GEN-LAST:event_btn_exitMousePressed
-
-	public static void main(String args[]) {
-		try {
-			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-				if ("Windows".equals(info.getName())) {
-					javax.swing.UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-				| javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(MainApplication.class.getName()).log(java.util.logging.Level.SEVERE,
-					null, ex);
-		}
-
-		java.awt.EventQueue.invokeLater(() -> {
-			new MainApplication().setVisible(true);
-		});
-
-	}
 
 	private static void setColor(JPanel pane) {
 		pane.setBackground(new Color(41, 57, 80));
@@ -512,5 +528,6 @@ public class MainApplication extends javax.swing.JFrame {
 	private javax.swing.JPanel jPanel6;
 	private javax.swing.JTextField jTextField1;
 	private javax.swing.JPanel side_pane;
+	private JLabel lblSarmale;
 
 }
