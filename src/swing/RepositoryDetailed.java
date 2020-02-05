@@ -72,7 +72,7 @@ public class RepositoryDetailed extends JPanel {
 
 		};
 		jTable1.setModel(model);
-		
+
 		int count = 0;
 		for (int i = 0; i < downloads.size(); i++) {
 			Object[] row = new Object[2];
@@ -115,7 +115,6 @@ public class RepositoryDetailed extends JPanel {
 			public void mousePressed(MouseEvent mouseEvent) {
 				JTable table = (JTable) mouseEvent.getSource();
 				if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
-					System.out.println("Sarmale");
 				}
 			}
 		});

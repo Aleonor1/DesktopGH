@@ -16,21 +16,14 @@ import api.RuntimeExec.StreamWrapper;
 public class ApiConnector {
 
 	@SuppressWarnings("unused")
-	public static Map<String, String> searchRepos(String qToSearch, String language) {
+	public static Map<String, String> searchRepos(String[] qToSearch, String language) {
 		Runtime rt = Runtime.getRuntime();
 		RuntimeExec rte = new RuntimeExec();
 		StreamWrapper error, output = null;
 		Map<String, String> jsonMap = new HashMap<>();
-		String st = null;
-		if (StringUtils.isBlank(language)) {
-			st = "curl -X GET https://api.github.com/search/repositories?q=" + qToSearch.toLowerCase()
-					+ "&sort=stars&order=desc";
-		} else {
-			st = "curl -X GET https://api.github.com/search/repositories?q=" + qToSearch.toLowerCase() + "language:"
-					+ language + "&sort=stars&order=desc";
-		}
+		String query = getQueryToSearch(language, qToSearch);
 		try {
-			Process proc = rt.exec(st);
+			Process proc = rt.exec(query);
 			error = rte.getStreamWrapper(proc.getErrorStream(), "ERROR");
 			output = rte.getStreamWrapper(proc.getInputStream(), "OUTPUT");
 			int exitVal = 0;
@@ -65,6 +58,27 @@ public class ApiConnector {
 			e.printStackTrace();
 		}
 		return jsonMap;
+	}
+
+	private static String getQueryToSearch(String language, String[] topics) {
+		String que = splitString(topics);
+		String queryToSearch;
+		if (StringUtils.isBlank(language)) {
+			queryToSearch = "curl -X GET https://api.github.com/search/repositories?q=" + que.toLowerCase()
+					+ "&sort=stars&order=desc";
+		} else {
+			queryToSearch = "curl -X GET https://api.github.com/search/repositories?q=" + que.toLowerCase()
+					+ "language:" + language + "&sort=stars&order=desc";
+		}
+		return queryToSearch;
+	}
+
+	private static String splitString(String[] topics) {
+		String finalString = "";
+		for (String st : topics) {
+			finalString += "topic:" + st + "+";
+		}
+		return finalString;
 	}
 
 	public static Map<String, String> getRepository(String login, String repositoryName) {
@@ -106,7 +120,6 @@ public class ApiConnector {
 		try {
 			String st = "curl -X  GET https://api.github.com/repos/" + a.trim() + "/" + repositoryName.trim()
 					+ "/topics -H \"Accept: application/vnd.github.mercy-preview+json\" -H \"Content-Type: application/vnd.github.v3.full+json/?client_id=87bd7263c9178e153521&client_secret=dc1c9bbbf467bf8768687818c1dabbffc684f45c\"";
-			System.out.println(st);
 			Process proc = rt.exec(st);
 			error = rte.getStreamWrapper(proc.getErrorStream(), "ERROR");
 			output = rte.getStreamWrapper(proc.getInputStream(), "OUTPUT");

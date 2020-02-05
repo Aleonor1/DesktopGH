@@ -30,11 +30,12 @@ public class SearchView extends javax.swing.JFrame { // NO_UCD (use default)
 	private ButtonGroup buttons = new ButtonGroup();
 
 	public SearchView(JPanel jPanel) { // NO_UCD (use default)
+		jPanel.removeAll();
 		this.jPanel6 = jPanel;
+		jPanel6.removeAll();
 		this.jPanel6.setBackground(Color.WHITE);
-		this.jPanel6.removeAll();
 		jPanel.setBackground(new java.awt.Color(255, 255, 255));
-
+		this.jPanel6.setBounds(jPanel.getX(), jPanel.getY(), 700, 600);
 		JLabel lblSarmale = new JLabel("Enter Topics to search");
 		lblSarmale.setBounds(179, 5, 228, 22);
 		lblSarmale.setForeground(Color.BLUE);
@@ -107,13 +108,16 @@ public class SearchView extends javax.swing.JFrame { // NO_UCD (use default)
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				RepositoriesView repo = null;
+				AllViews view = AllViews.getInstances();
 				if (buttons.getSelection() == null) {
-					Map<String, String> results = ApiConnector.searchRepos(text.getText(), null);
+					Map<String, String> results = ApiConnector.searchRepos(text.getText().split(","), null);
 					repo = new RepositoriesView(getjPanel(), results);
+					view.setRepositoryView(repo);
 				} else {
-					Map<String, String> results = ApiConnector.searchRepos(text.getText(),
+					Map<String, String> results = ApiConnector.searchRepos(text.getText().split(","),
 							buttons.getSelection().getActionCommand());
 					repo = new RepositoriesView(getjPanel(), results);
+					view.setRepositoryView(repo);
 				}
 				jPanel6 = repo.getJPanel6();
 			}

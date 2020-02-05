@@ -294,9 +294,11 @@ public class HomeView extends javax.swing.JFrame { // NO_UCD (use default)
 					}
 
 					private void RepoView(JPanel jPanel6) {
-						Map<String, String> results = ApiConnector.searchRepos(button.getLabel(), null);
-						RepositoriesView r = new RepositoriesView(jPanel6, results);
-						jPanel6 = r.getJPanel6();
+						String[] st = { button.getLabel() };
+						Map<String, String> results = ApiConnector.searchRepos(st, null);
+						RepositoriesView repo = new RepositoriesView(jPanel6, results);
+						AllViews.getInstances().setRepositoryView(repo);
+						jPanel6 = repo.getJPanel6();
 					}
 				});
 

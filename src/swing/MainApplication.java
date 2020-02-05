@@ -22,6 +22,7 @@ import javax.swing.GroupLayout.Alignment;
 public class MainApplication extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = -5233284588613718266L;
+	public static AllViews views = AllViews.getInstances();
 
 	public static void main(String args[]) {
 		try {
@@ -48,8 +49,9 @@ public class MainApplication extends javax.swing.JFrame {
 		setColor(btn_1);
 		ind_1.setOpaque(true);
 		resetColor(new JPanel[] { btn_2, btn_3, btn_4 }, new JPanel[] { ind_2, ind_3, ind_4 });
-		HomeView h = new HomeView(jPanel6);
-		this.jPanel6 = h.getjPanel();
+		HomeView homeView = new HomeView(jPanel6);
+		views.setHomeView(homeView);
+		this.jPanel6 = homeView.getjPanel();
 	}
 
 	public Container getPanel() {
@@ -99,6 +101,8 @@ public class MainApplication extends javax.swing.JFrame {
 		btn_1.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mousePressed(java.awt.event.MouseEvent evt) {
 				btn_1MousePressed(evt);
+				RepositoriesView view = AllViews.getInstances().getRepositoryView();
+				jPanel6 = view.getJPanel6();
 			}
 		});
 
@@ -388,24 +392,14 @@ public class MainApplication extends javax.swing.JFrame {
 		getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 300, 540));
 
 		jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-		
+
 		lblSarmale = new JLabel("sarmale");
 
 		javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-		jPanel6Layout.setHorizontalGroup(
-			jPanel6Layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(jPanel6Layout.createSequentialGroup()
-					.addGap(119)
-					.addComponent(lblSarmale)
-					.addContainerGap(485, Short.MAX_VALUE))
-		);
-		jPanel6Layout.setVerticalGroup(
-			jPanel6Layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(jPanel6Layout.createSequentialGroup()
-					.addGap(173)
-					.addComponent(lblSarmale)
-					.addContainerGap(353, Short.MAX_VALUE))
-		);
+		jPanel6Layout.setHorizontalGroup(jPanel6Layout.createParallelGroup(Alignment.LEADING).addGroup(jPanel6Layout
+				.createSequentialGroup().addGap(119).addComponent(lblSarmale).addContainerGap(485, Short.MAX_VALUE)));
+		jPanel6Layout.setVerticalGroup(jPanel6Layout.createParallelGroup(Alignment.LEADING).addGroup(jPanel6Layout
+				.createSequentialGroup().addGap(173).addComponent(lblSarmale).addContainerGap(353, Short.MAX_VALUE)));
 		jPanel6.setLayout(jPanel6Layout);
 
 		getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 50, 650, 540));
@@ -418,6 +412,7 @@ public class MainApplication extends javax.swing.JFrame {
 		ind_1.setOpaque(true);
 		resetColor(new JPanel[] { btn_2, btn_3, btn_4 }, new JPanel[] { ind_2, ind_3, ind_4 });
 		HomeView repo = new HomeView(jPanel6);
+		views.setHomeView(repo);
 		this.jPanel6 = repo.getjPanel();
 	}
 
@@ -440,7 +435,7 @@ public class MainApplication extends javax.swing.JFrame {
 		resetColor(new JPanel[] { btn_1, btn_3, btn_4 }, new JPanel[] { ind_1, ind_3, ind_4 });
 		SearchView search = new SearchView(this.jPanel6);
 		this.jPanel6 = search.getjPanel();
-		
+
 	}// GEN-LAST:event_btn_2MouseReleased
 
 	private int xx, xy;
@@ -461,7 +456,6 @@ public class MainApplication extends javax.swing.JFrame {
 
 	private void btn_exitMousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_exitMousePressed
 		// TODO add your handling code here:
-
 		System.exit(0);
 	}// GEN-LAST:event_btn_exitMousePressed
 
@@ -486,18 +480,11 @@ public class MainApplication extends javax.swing.JFrame {
 
 	private void btn_3MousePressed() {
 		setColor(btn_3);
+		System.out.println("hatz");
 		ind_3.setOpaque(true);
 		resetColor(new JPanel[] { btn_2, btn_1, btn_4 }, new JPanel[] { ind_2, ind_1, ind_4 });
-		ArrayList<ArrayList<String>> a = new ArrayList<>();
-		ArrayList<String> b = new ArrayList<String>();
-		b.add("Sarmale");
-		b.add("Carnati");
-		b.add("portocale");
-		for (int i = 0; i < 1000; i++) {
-			a.add(b);
-		}
-//		RepositoriesView repo = new RepositoriesView(jPanel6, a);
-//		this.jPanel6 = repo.getJPanel6();
+		RepositoriesView repo = AllViews.getInstances().getRepositoryView();
+		this.jPanel6 = repo.getJPanel6();
 	}
 
 	private static javax.swing.JPanel btn_1;
