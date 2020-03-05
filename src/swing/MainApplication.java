@@ -219,7 +219,11 @@ public class MainApplication extends javax.swing.JFrame {
 		btn_4.setBackground(new java.awt.Color(23, 35, 51));
 		btn_4.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mousePressed(java.awt.event.MouseEvent evt) {
-				btn_4MousePressed(evt);
+				try {
+					btn_4MousePressed(evt);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -416,16 +420,11 @@ public class MainApplication extends javax.swing.JFrame {
 		this.jPanel6 = repo.getjPanel();
 	}
 
-	private void btn_4MousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_4MousePressed
-		try {
-			setColor(btn_4);
-			ind_4.setOpaque(true);
-			resetColor(new JPanel[] { btn_2, btn_3, btn_1 }, new JPanel[] { ind_2, ind_3, ind_1 });
-			RepositoryDetailed repos = new RepositoryDetailed(jPanel6);
-			this.jPanel6 = repos.getJPanel();
-		} catch (IOException ex) {
-			Logger.getLogger(MainApplication.class.getName()).log(Level.SEVERE, null, ex);
-		}
+	private void btn_4MousePressed(java.awt.event.MouseEvent evt) throws IOException {// GEN-FIRST:event_btn_4MousePressed
+		setColor(btn_4);
+		ind_4.setOpaque(true);
+		resetColor(new JPanel[] { btn_2, btn_3, btn_1 }, new JPanel[] { ind_2, ind_3, ind_1 });
+//			RepositoryDetailed repos = new RepositoryDetailed();
 	}
 
 	private void btn_2MouseReleased(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_2MouseReleased

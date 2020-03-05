@@ -97,15 +97,11 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 			public void mousePressed(MouseEvent mouseEvent) {
 				JTable table = (JTable) mouseEvent.getSource();
 				if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
-					try {
-						System.out.println(table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
-						String data = table.getValueAt(table.getSelectedRow(), 0).toString();
-						data += table.getValueAt(table.getSelectedRow(), 1).toString();
-						System.out.println(data);
-						RepositoryDetailed detailedRepo = new RepositoryDetailed(jPanel6);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+					String user = table.getValueAt(table.getSelectedRow(), 1).toString();
+					String data = table.getValueAt(table.getSelectedRow(), 2).toString();
+					System.out.println(user);
+					RepositoryDetailed detailedRepo = new RepositoryDetailed(user, data, jPanel6);
+					
 				}
 			}
 
@@ -118,7 +114,6 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 		this.jPanel6.removeAll();
 		jTable1 = new JTable();
 		jScrollPane1 = new JScrollPane();
-
 		jTable1.setModel(new javax.swing.table.DefaultTableModel(
 				new Object[][] { { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
 						{ null, null, null, null } },
@@ -161,7 +156,7 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 	public void resizeColumnWidth(JTable table) {
 		final TableColumnModel columnModel = table.getColumnModel();
 		for (int column = 0; column < table.getColumnCount(); column++) {
-			int width = 15; // Min width
+			int width = 15;
 			for (int row = 0; row < table.getRowCount(); row++) {
 				TableCellRenderer renderer = table.getCellRenderer(row, column);
 				Component comp = table.prepareRenderer(renderer, row, column);
