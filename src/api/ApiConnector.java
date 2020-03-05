@@ -80,36 +80,32 @@ public class ApiConnector {
 		}
 		return finalString;
 	}
-
-	public static Map<String, String> getRepository(String login, String repositoryName) {
-		HttpURLConnection httpcon = null;
+	
+	
+	//TODO
+	public static HashMap<String, String> getDetailsOfRepo(String owner, String repositoryName){
+		Runtime rt = Runtime.getRuntime();
+		RuntimeExec rte = new RuntimeExec();
+		StreamWrapper error, output = null;
 		try {
-			httpcon = (HttpURLConnection) new URL("https://api.github.com/repos/" + login + "/" + repositoryName)
-					.openConnection();
+			String st = "curl -X GET https://api.github.com/repos/" + owner.trim() + "/" + repositoryName.trim()+"/downloads/";
+			Process proc = rt.exec(st);
+			error = rte.getStreamWrapper(proc.getErrorStream(), "ERROR");
+			output = rte.getStreamWrapper(proc.getInputStream(), "OUTPUT");
+			int exitVal = 0;
+			error.start();
+			output.start();
+			error.join(3000);
+			output.join(3000);
+			exitVal = proc.waitFor();
+			System.out.println();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		httpcon.addRequestProperty("User-Agent", "Mozilla/5.0");
-		StringBuilder responseSB = null;
-		try (BufferedReader in = new BufferedReader(new InputStreamReader(httpcon.getInputStream()))) {
-			responseSB = new StringBuilder();
-			String line;
-			while ((line = in.readLine()) != null) {
-				responseSB.append("\n").append(line);
-			}
-			httpcon.disconnect();
-		} catch (IOException e) {
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		Map<String, String> listOfInformations = new HashMap<>();
-		int downloadsCount = Arrays.stream(responseSB.toString().split("\"download_count\":")).skip(1)
-				.mapToInt(l -> Integer.parseInt(l.split(",")[0])).sum();
-		listOfInformations.put("Total Downloads", Integer.toString(downloadsCount));
-		int watchersCount = Arrays.stream(responseSB.toString().split("\"watchers_count\":")).skip(1)
-				.mapToInt(l -> Integer.parseInt(l.split(",")[0])).sum();
-		listOfInformations.put("Watchers Count", Integer.toString(watchersCount));
-
-		return listOfInformations;
+		return new HashMap<String, String>();
 	}
 
 	public static String getTopics(String repositoryName, String a) {
