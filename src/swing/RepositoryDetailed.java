@@ -4,33 +4,15 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-import api.ApiConnector;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -45,8 +27,6 @@ public class RepositoryDetailed extends JFrame {
 
 	private static final long serialVersionUID = 1120803797549237556L;
 	private JPanel jPanel6;
-	private javax.swing.JTable jTable1;
-	private javax.swing.JScrollPane jScrollPane1;
 
 	public JPanel getJPanel() {
 		return this.jPanel6;
@@ -54,9 +34,7 @@ public class RepositoryDetailed extends JFrame {
 
 	public RepositoryDetailed(String user, String data, JPanel jPanel62) {
 		super("Details of:" + data);
-		JPanel panel = new JPanel(new GridLayout(2,1));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		HashMap<String, String> details = ApiConnector.getDetailsOfRepo(user, data);
 
 		String[] columns = new String[] { "Name", "Creator", "Watchers", "Downloads" };
 
