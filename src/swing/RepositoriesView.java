@@ -98,7 +98,6 @@ public class RepositoriesView extends javax.swing.JPanel { // NO_UCD (use defaul
 				if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
 					String user = table.getValueAt(table.getSelectedRow(), 1).toString();
 					String data = table.getValueAt(table.getSelectedRow(), 2).toString();
-					System.out.println(user);
 					RepositoryDetailed detailedRepo = new RepositoryDetailed(user, data, jPanel6);
 					
 				}

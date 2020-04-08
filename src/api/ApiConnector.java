@@ -65,6 +65,7 @@ public class ApiConnector {
 			queryToSearch = "curl -X GET https://api.github.com/search/repositories?q=" + que.toLowerCase()
 					+ "language:" + language + "&sort=stars&order=desc";
 		}
+		
 		return queryToSearch;
 	}
 
@@ -75,16 +76,16 @@ public class ApiConnector {
 		}
 		return finalString;
 	}
-	
-	
-	//TODO
-	public static HashMap<String, String> getDetailsOfRepo(String owner, String repositoryName){
+
+	public static HashMap<String, String> getDetailsOfRepo(String owner, String repositoryName) {
 		Runtime rt = Runtime.getRuntime();
 		RuntimeExec rte = new RuntimeExec();
 		StreamWrapper error, output = null;
+		Map<String, String> detailsOfRepo = new HashMap<>();
 		try {
-			String st = "curl -X GET https://api.github.com/repos/" + owner.trim() + "/" + repositoryName.trim()+"/downloads/";
-			Process proc = rt.exec(st);
+			String details = "curl -X GET https://api.github.com/repos/" + owner.trim() + "/" + repositoryName.trim();
+			Process proc = rt.exec(details);
+			System.out.println(details);
 			error = rte.getStreamWrapper(proc.getErrorStream(), "ERROR");
 			output = rte.getStreamWrapper(proc.getInputStream(), "OUTPUT");
 			@SuppressWarnings("unused")
@@ -94,14 +95,30 @@ public class ApiConnector {
 			error.join(3000);
 			output.join(3000);
 			exitVal = proc.waitFor();
-			System.out.println();
-			
+			String outputMessage = output.getMessage();
+			outputMessage = StringUtils.normalizeSpace(outputMessage);
+			outputMessage = outputMessage.replace("\"", "");
+			outputMessage = outputMessage.replaceAll("[\\p{Ps}\\p{Pe}]", "");
+			String[] lista = outputMessage.split(",");
+			String key = "";
+			String value = "";
+			for (int i = 0; i < lista.length; i++) {
+				String currentValue = lista[i];
+				String[] keyValue = currentValue.split(":");
+				if (keyValue.length > 1) {
+					key = keyValue[0];
+					value = keyValue[1];
+					detailsOfRepo.put(key, value);
+					value = "";
+					key = "";
+				}
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		return new HashMap<String, String>();
+		return (HashMap<String, String>) detailsOfRepo;
 	}
 
 	public static String getTopics(String repositoryName, String a) {

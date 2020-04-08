@@ -476,7 +476,6 @@ public class MainApplication extends javax.swing.JFrame {
 
 	private void btn_3MousePressed() {
 		setColor(btn_3);
-		System.out.println("hatz");
 		ind_3.setOpaque(true);
 		resetColor(new JPanel[] { btn_2, btn_1, btn_4 }, new JPanel[] { ind_2, ind_1, ind_4 });
 		RepositoriesView repo = AllViews.getInstances().getRepositoryView();
